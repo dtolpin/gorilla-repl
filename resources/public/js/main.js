@@ -227,7 +227,6 @@ var app = function () {
     // self.handleSaveDialogSuccess)
     eventBus.on("app:save", function () {
         var fname = self.filename();
-		console.log("saving");
         // if we already have a filename, save to it. Else, prompt for a name.
         if (fname !== "") {
             saveToFile(fname);
