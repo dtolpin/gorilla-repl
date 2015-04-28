@@ -156,6 +156,7 @@ var app = function () {
 					+ " as: " + filename_as, 2000);
 		});
 		clearTimeout(async_autosave);
+		async_autosave = undefined;
 	};
 	var autosave = function(filename) {
 		if(!async_autosave)
