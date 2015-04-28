@@ -33,6 +33,12 @@ var app = function () {
         self.filename(newFilename);
         self.worksheet(newWorksheet);
         newWorksheet.addEventHandlers();
+
+		// If the worksheet is named, a backup is saved automatically on autosave triggers.
+		eventBus.on("worksheet:leaveBack worksheet:leaveForward worksheet:segment-clicked",
+				function (e) {
+					eventBus.trigger("app:autosave");
+				});
     };
 
     // This starts the application. First of all we ask the server for configuration information, and then prepare the
@@ -135,6 +141,28 @@ var app = function () {
         });
     };
 
+	// Support for asynchronous autosave
+	var autosave_interval = 60000;
+	var async_autosave = undefined;
+
+	var do_autosave = function (filename) {
+		var filename_as = filename + "~";
+		$.post("/save", {
+			"worksheet-filename": filename_as,
+			"worksheet-data": self.worksheet().toClojure()
+		}).fail(function () {
+			self.flashStatusMessage(
+					"Failed to autosave worksheet: " + filename
+					+ " as: " + filename_as, 2000);
+		});
+		clearTimeout(async_autosave);
+	};
+	var autosave = function(filename) {
+		if(!async_autosave)
+			async_autosave = setTimeout(function () {do_autosave(filename);},
+					                    autosave_interval);
+	}
+
     var loadFromFile = function (filename) {
         // ask the backend to load the data from disk
         $.get("/load", {"worksheet-filename": filename})
@@ -198,10 +226,17 @@ var app = function () {
     // self.handleSaveDialogSuccess)
     eventBus.on("app:save", function () {
         var fname = self.filename();
+		console.log("saving");
         // if we already have a filename, save to it. Else, prompt for a name.
         if (fname !== "") {
             saveToFile(fname);
         } else self.saveDialog.show();
+    });
+
+    eventBus.on("app:autosave", function () {
+        var fname = self.filename();
+        if (fname !== "")
+			autosave(fname);
     });
 
     eventBus.on("app:saveas", function () {
