@@ -47,8 +47,8 @@ var commandProcessor = (function () {
 // The list of commands. These could be located with the components they belong to if the list gets too unwieldy,
 // but for now they're fine together here.
 
-// On Windows and Linux "alt" is used as the command key, on Mac "ctrl"
-var ck = /Win|Linux/.test(navigator.platform) ? "alt" : "ctrl";
+// On Mac (and probably other obscure systems) 'ctrl' is used; elsewhere 'alt'.
+var ck = /Mac/.test(navigator.platform) ? "ctrl" : "alt";
 // helper for two key combos
 var combo = function (k1, k2) { return ck + "+" + k1 + " " + ck + "+" + k2};
 
