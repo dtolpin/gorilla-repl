@@ -97,6 +97,24 @@ commandList = [
         }
     },
     {
+        name: "command:evaluator:evaluate-rest",
+        desc: "Evaluate remaining segments, starting from the current one.",
+        showInMenu: true,
+        kb: combo('g', 'enter'),
+        action: function () {
+            eventBus.trigger("worksheet:evaluate-rest");
+        }
+    },
+    {
+        name: "command:evaluator:evaluate-stationary",
+        desc: "Evaluate the highlighted segment without creating new cells.",
+        showInMenu: false,
+        kb: ck + "+enter",
+        action: function () {
+            eventBus.trigger("worksheet:evaluate-stationary");
+        }
+    },
+    {
         name: "command:worksheet:clear-output",
         desc: "Clear the output of the highlighted segment.",
         showInMenu: true,
@@ -169,6 +187,15 @@ commandList = [
         }
     },
     {
+        name: "command:app:savewithout",
+        desc: "Save the worksheet without markup.",
+        showInMenu: true,
+        kb: combo('g', 'w'),
+        action: function () {
+            eventBus.trigger("app:savewithout");
+        }
+    },
+    {
         name: "command:app:saveas",
         desc: "Save the worksheet to a new filename.",
         showInMenu: true,
@@ -238,6 +265,16 @@ commandList = [
         kb: ["ctrl+space", combo('g', 'a')],
         action: function () {
             eventBus.trigger("worksheet:completions");
+        }
+    },
+    {
+        name: "command:worksheet:reindent",
+        desc: "Auto reindent the current segment.",
+        showInMenu: true,
+        // alternative provided to workaround Firefox's idiotic unstoppable binding of ctrl+space
+        kb: ["shift+tab", combo('g', 'i')],
+        action: function () {
+            eventBus.trigger("worksheet:reindent");
         }
     }
 ];

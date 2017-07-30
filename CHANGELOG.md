@@ -1,5 +1,21 @@
 # Changelog
 
+## Version 0.4.1
+- Switch from MathJax CDN to Cloudflare (thanks to @ribelo and @jsa-aerial)
+- Add line numbers to text editor
+- Fix clojuredocs lookup (thanks @peterfoldi)
+- Support Clojure 1.9 (thanks @saulshanabrook)
+- Add command to evaluate remaining cells
+- Add command to evaluate a cell in place
+- Add command to reindent code
+- Prepopulate .clj extension in save dialog
+
+## Version 0.4.0
+
+- Allow opening and automatic conversion into worksheet of any .clj file 
+- Add save without markup command
+- Allow opening .cljs, .cljc, and .hl files
+
 ## Version 0.3.6
 
 - Axis labels on plots (thanks to @dtolpin).
